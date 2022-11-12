@@ -1,23 +1,15 @@
 import React from "react";
+
+import { FootButtonGroup } from "./FootButtonGroup";
+
 import { useBookingContext } from "../hooks";
-import { BOOKING_FORM_URL } from "../constants";
-import { useLocation } from "wouter";
-import Button from "@mui/material/Button";
+
+import { MENU_URL } from "../constants";
+
 export const BookingSummary = () => {
-  const [data, setData] = useBookingContext();
-  const [, setLocation] = useLocation();
   return (
     <>
-      <p>{data.numberOfVisitors}</p>
-      <Button
-        variant="contained"
-        onClick={() => {
-          setData({ ...data, numberOfVisitors: ++data.numberOfVisitors });
-          setLocation(BOOKING_FORM_URL);
-        }}
-      >
-        Go to FORM
-      </Button>
+      <FootButtonGroup previousUrl={MENU_URL} isLastPage={true} />
     </>
   );
 };

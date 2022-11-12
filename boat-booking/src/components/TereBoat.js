@@ -1,0 +1,76 @@
+import React, { useState, useEffect } from "react";
+import { isEmpty } from "lodash";
+import SeatPicker from "react-seat-picker";
+
+import { convertToRowsFormat, updateLocalStorage } from "../utils";
+
+import { useFetchXml, useBookingContext, useLocalStorage } from "../hooks";
+
+import { TERE_BOAT, ADD, REMOVE } from "../constants";
+
+export const TereBoat = () => {
+  const [data, setData] = useBookingContext();
+  const { item, pending } = useFetchXml(`TereBoat.xml`);
+  const [rows, setRows] = useState(JSON.parse(localStorage.getItem(TERE_BOAT)));
+
+  useEffect(() => {
+    // If has value in local storage, no need to read from xml file.
+    if (!isEmpty(rows)) {
+      return;
+    }
+
+    // if no value in local storage, and xml conversion has been done
+    if (item && !pending) {
+      const formattedRows = convertToRowsFormat(item);
+      setRows(formattedRows);
+
+      // Here we could not use rows immediately as setRows may done after fetch rows.
+      localStorage.setItem(TERE_BOAT, JSON.stringify(formattedRows));
+    }
+  }, [item, pending]);
+
+  const addSeat = async ({ row, number, id }, addCb) => {
+    const newTooltip = `Seat selected - ${id}`;
+    await addCb(row, number, id, newTooltip);
+
+    // Added seat to context
+    const updateSelectedSeats = data.selectedSeats;
+    updateSelectedSeats.push({
+      row: row,
+      id: id,
+    });
+    setData({ ...data, selectedSeats: updateSelectedSeats });
+
+    // Update localStorage
+    updateLocalStorage(TERE_BOAT, ADD, id);
+  };
+
+  const removeSeat = async ({ row, number, id }, removeCb) => {
+    // revert to null is to reset toolTip
+    const newTooltip = null;
+    removeCb(row, number, newTooltip);
+
+    // Added seat to context
+    const updateSelectedSeats = data.selectedSeats;
+    updateSelectedSeats.pop();
+    setData({ ...data, selectedSeats: updateSelectedSeats });
+
+    // Update localStorage
+    updateLocalStorage(TERE_BOAT, REMOVE, id);
+  };
+
+  if (rows) {
+    return (
+      <SeatPicker
+        addSeatCallback={addSeat}
+        removeSeatCallback={removeSeat}
+        rows={rows}
+        maxReservableSeats={Number(data.numberOfVisitors)}
+        visible
+        selectedByDefault
+      />
+    );
+  }
+
+  return;
+};

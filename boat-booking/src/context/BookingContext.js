@@ -3,10 +3,11 @@ import React, { useState, createContext } from "react";
 export const BookingContext = createContext();
 
 const initialState = {
-  numberOfVisitors: 0,
+  numberOfVisitors: 1,
   boatName: "Tere Boat",
   departureTime: "10am",
-  departureDate: "05-Nov 2022",
+  departureDate: new Date(),
+  selectedSeats: [],
 };
 
 export const BookingContextProvider = (props) => {
