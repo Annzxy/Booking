@@ -2,7 +2,7 @@ import React, { useState, createContext } from "react";
 
 export const BookingContext = createContext();
 
-const initialState = {
+export const INITIAL_STATE = {
   numberOfVisitors: 1,
   boatName: "Tere Boat",
   departureTime: "10am",
@@ -52,7 +52,7 @@ const initialState = {
 };
 
 export const BookingContextProvider = (props) => {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState(INITIAL_STATE);
 
   return (
     <BookingContext.Provider value={[state, setState]}>

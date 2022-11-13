@@ -6,7 +6,7 @@ export const updateLocalStorage = (KeyInLocalStorage, method, id) => {
     case ADD:
       rows = rows.map((row) => {
         row.map((seat) => {
-          if (seat && seat.id == id) {
+          if (seat && seat.id === id) {
             seat.isSelected = true;
           }
           return seat;
@@ -19,7 +19,7 @@ export const updateLocalStorage = (KeyInLocalStorage, method, id) => {
     case REMOVE:
       rows = rows.map((row) => {
         row.map((seat) => {
-          if (seat && seat.id == id) {
+          if (seat && seat.id === id) {
             seat.isSelected = false;
           }
           return seat;
@@ -32,7 +32,7 @@ export const updateLocalStorage = (KeyInLocalStorage, method, id) => {
     case RESERVE:
       rows = rows.map((row) => {
         row.map((seat) => {
-          if (seat && seat.isSelected == true) {
+          if (seat && seat.isSelected === true) {
             seat.isReserved = true;
           }
           return seat;

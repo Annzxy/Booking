@@ -25,7 +25,7 @@ export const ConfirmationDialog = ({ setOpen, open, url }) => {
       maxWidth="xs"
       open={open}
     >
-      <DialogTitle>Please confirm everything is correct</DialogTitle>
+      <DialogTitle>Please confirm if everything is correct?</DialogTitle>
 
       <DialogActions>
         <Button autoFocus onClick={handleYes}>

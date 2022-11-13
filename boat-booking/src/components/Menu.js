@@ -33,9 +33,10 @@ import {
 const StyledContainer = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
-  alignItems: "center",
+  alignItems: "start",
   justifyContenet: "center",
   padding: theme.spacing(10),
+  paddingBottom: 0,
 }));
 
 const StyledMenu = styled("div")(({ theme }) => ({
@@ -46,7 +47,6 @@ const StyledMenuBoard = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "start",
-  height: "100vh",
 }));
 
 export const Menu = () => {
@@ -105,6 +105,7 @@ export const Menu = () => {
     setData({ ...data, orders: orders, totalFoodPrice: totalFoodPrice });
   };
 
+  console.log("data", data);
   return data ? (
     <>
       <StyledContainer>
@@ -127,7 +128,9 @@ export const Menu = () => {
                   {menu.map((menuItem, index) => (
                     <TableRow
                       key={index}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
                     >
                       <TableCell align="left">{menuItem.imageName}</TableCell>
                       <TableCell align="left">
@@ -135,6 +138,7 @@ export const Menu = () => {
                           src={`${menuItem.imageName}.png`}
                           alt={menuItem.imageName}
                           loading="lazy"
+                          height={80}
                         />
                       </TableCell>
                       <TableCell align="left">{menuItem.description}</TableCell>

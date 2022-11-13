@@ -31,7 +31,7 @@ export const TereBoat = () => {
       // Here we could not use rows immediately as setRows may done after fetch rows.
       localStorage.setItem(TERE_BOAT, JSON.stringify(formattedRows));
     }
-  }, [item, pending]);
+  }, [item, pending, rows]);
 
   const addSeat = async ({ row, number, id }, addCb) => {
     const newTooltip = `Seat selected - ${id}`;
