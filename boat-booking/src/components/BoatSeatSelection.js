@@ -9,18 +9,14 @@ import { NuiBoat } from "./NuiBoat";
 import { TereBoat } from "./TereBoat";
 import { FootButtonGroup } from "./FootButtonGroup";
 
-import {
-  useFetchWeatherApi,
-  useBookingContext,
-  useLocalStorage,
-} from "../hooks";
+import { useBookingContext } from "../hooks";
 
 import {
   convertDepartureDateToString,
   convertTimeStampToLocalDateTime,
 } from "../utils";
 
-import { ROOT_URL, MENU_URL, WEATHER_API_BASE_URL } from "../constants";
+import { ROOT_URL, MENU_URL } from "../constants";
 
 const StyledBoatSelection = styled("div")(({ theme }) => ({
   display: "flex",

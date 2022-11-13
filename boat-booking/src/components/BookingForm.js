@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { isEmpty } from "lodash";
 
-import { useRoute, useLocation } from "wouter";
+import { useLocation } from "wouter";
 
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
@@ -12,9 +12,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Alert from "@mui/material/Alert";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -42,12 +40,11 @@ const StyledForm = styled("form")`
 `;
 
 export const BookingForm = () => {
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
   const [context, setContext] = useBookingContext();
   const [currentWeather, setCurrentWeather] = useState({});
   const [futureWeathers, setFutureWeathers] = useState({});
   const { item, pending, error } = useFetchWeatherApi(WEATHER_API_BASE_URL);
-  console.log("futureWeathers", futureWeathers);
   useEffect(() => {
     if (!isEmpty(item) && !pending) {
       setCurrentWeather(item.current);

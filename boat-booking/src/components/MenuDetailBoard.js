@@ -1,8 +1,5 @@
 import React from "react";
 
-import { styled } from "@mui/material/styles";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,8 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { red, green } from "@mui/material/colors";
-import Divider from "@mui/material/Divider";
 
 import { convertToDollarCurrencyFormat } from "../utils";
 

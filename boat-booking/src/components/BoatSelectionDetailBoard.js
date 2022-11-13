@@ -1,7 +1,6 @@
 import React from "react";
 
 import {
-  styled,
   Table,
   TableBody,
   TableCell,
@@ -9,9 +8,6 @@ import {
   TableHead,
   Paper,
   TableRow,
-  red,
-  green,
-  Divider,
   Container,
   Typography,
 } from "@mui/material";
@@ -36,7 +32,6 @@ import {
 export const BoatSelectionDetailBoard = (data) => {
   const contextData = data.data;
 
-  console.log("contextData", contextData);
   return (
     <>
       <Container sx={{ display: "flex", flexDirection: "row" }}>

@@ -4,7 +4,7 @@ import SeatPicker from "react-seat-picker";
 
 import { convertToRowsFormat, updateLocalStorage } from "../utils";
 
-import { useFetchXml, useBookingContext, useLocalStorage } from "../hooks";
+import { useFetchXml, useBookingContext } from "../hooks";
 
 import { TERE_BOAT, ADD, REMOVE } from "../constants";
 

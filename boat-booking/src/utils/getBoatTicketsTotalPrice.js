@@ -1,8 +1,6 @@
 import { calculateBoatTicketPrice } from ".";
 
 export const getBoatTicketsTotalPrice = (selectedSeats) => {
-  console.log("selectedSeats", selectedSeats);
-
   if (selectedSeats.length == 0) {
     return 0;
   }

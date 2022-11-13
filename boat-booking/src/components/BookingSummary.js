@@ -1,17 +1,5 @@
 import React from "react";
 import { useLocation } from "wouter";
-import { styled } from "@mui/material/styles";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { red, green } from "@mui/material/colors";
-import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -27,7 +15,7 @@ import { MenuDetailBoard } from "./MenuDetailBoard";
 import { BoatSelectionDetailBoard } from "./BoatSelectionDetailBoard";
 
 export const BookingSummary = () => {
-  const [data, setData] = useBookingContext();
+  const [data] = useBookingContext();
 
   const [, setLocation] = useLocation();
 

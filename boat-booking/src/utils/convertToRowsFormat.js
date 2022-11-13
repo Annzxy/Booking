@@ -1,4 +1,3 @@
-import XMLParser from "react-xml-parser";
 /**
  {
     "name": "layout",
