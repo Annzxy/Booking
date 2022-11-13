@@ -1,5 +1,4 @@
 export const calculateBoatTicketPrice = (rowNumber) => {
-  debugger;
   switch (rowNumber) {
     case ("1", "2"):
       return 30;

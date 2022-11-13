@@ -22,8 +22,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import WorkIcon from "@mui/icons-material/Work";
-import BeachAccessIcon from "@mui/icons-material/BeachAccess";
+
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
@@ -31,6 +30,7 @@ import {
   convertToDollarCurrencyFormat,
   calculateBoatTicketPrice,
   convertDepartureDateToString,
+  getBoatTicketsTotalPrice,
 } from "../utils";
 
 export const BoatSelectionDetailBoard = (data) => {
@@ -114,7 +114,7 @@ export const BoatSelectionDetailBoard = (data) => {
           sx={{ alig: "end", marginTop: 2, marginBottom: 2 }}
         >
           {`Ticket total: ${convertToDollarCurrencyFormat(
-            contextData.totalTicketPrice
+            getBoatTicketsTotalPrice(contextData.selectedSeats)
           )}`}
         </Typography>
       </Container>

@@ -47,7 +47,7 @@ export const BookingForm = () => {
   const [currentWeather, setCurrentWeather] = useState({});
   const [futureWeathers, setFutureWeathers] = useState({});
   const { item, pending, error } = useFetchWeatherApi(WEATHER_API_BASE_URL);
-  console.log("context", context);
+  console.log("futureWeathers", futureWeathers);
   useEffect(() => {
     if (!isEmpty(item) && !pending) {
       setCurrentWeather(item.current);

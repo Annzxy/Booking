@@ -32,33 +32,30 @@ export const BoatSeatSelection = () => {
   const [data, setData] = useBookingContext();
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [currentWeather, setCurrentWeather] = useState({});
   const [selectedWeather, setSelectedWeather] = useState({});
 
-  console.log("data.futureWeathers", data.futureWeathers);
-  // find out the same date from api response as we selected from form.
-  if (data) {
-    data.futureWeathers.map((dailyWeather) => {
-      const dateFromApi = convertTimeStampToLocalDateTime(dailyWeather.dt);
-      const dateSelectedFromForm = data.departureDate
-        .toLocaleString()
-        .split(",")[0]
-        .trim();
-      console.log("dateFromApi", dateFromApi);
-      console.log("dateSelectedFromForm", dateSelectedFromForm);
-      if (dateFromApi == dateSelectedFromForm) {
-        setSelectedWeather(dailyWeather);
-      }
-    });
-  }
-
   useEffect(() => {
-    if (!isEmpty(selectedWeather)) {
-      if (selectedWeather.weather[0].main == "Rain") {
-        setDisabled(true);
-      }
+    if (!isEmpty(data)) {
+      data.futureWeathers.map((dailyWeather) => {
+        const dateFromApi = convertTimeStampToLocalDateTime(dailyWeather.dt);
+        const dateSelectedFromForm = data.departureDate
+          .toLocaleString()
+          .split(",")[0]
+          .trim();
+
+        if (dateFromApi == dateSelectedFromForm) {
+          setSelectedWeather(dailyWeather);
+        }
+
+        if (!isEmpty(selectedWeather)) {
+          if (selectedWeather.weather[0].main == "Rain") {
+            setDisabled(true);
+          }
+        }
+      });
     }
-  }, [selectedWeather]);
+  }, [data.futureWeathers]);
+
   const boatSelect = () => {
     switch (data.boatName) {
       case "Nui Boat":
@@ -70,22 +67,26 @@ export const BoatSeatSelection = () => {
     }
   };
 
+  const shouldShowAlert = !isEmpty(data?.futureWeathers);
+  const shouldShowSuccessAlert = !disabled && !isEmpty(selectedWeather);
   return (
     <Container>
       <StyledBoatSelection>{boatSelect()}</StyledBoatSelection>
-      {!disabled && data && !isEmpty(selectedWeather) ? (
-        <Alert severity="success">
-          {`Congrats! The weather on ${convertDepartureDateToString(
-            data.departureDate
-          )} is ${selectedWeather.weather[0].main}! You can continue booking`}
-        </Alert>
-      ) : (
-        <Alert severity="error">
-          {`Sorry! The weather on ${convertDepartureDateToString(
-            data.departureDate
-          )} is Rain, please select another time`}
-        </Alert>
-      )}
+      {shouldShowAlert ? (
+        shouldShowSuccessAlert ? (
+          <Alert severity="success">
+            {`Congrats! The weather on ${convertDepartureDateToString(
+              data.departureDate
+            )} is ${selectedWeather.weather[0].main}! You can continue booking`}
+          </Alert>
+        ) : (
+          <Alert severity="error">
+            {`Sorry! The weather on ${convertDepartureDateToString(
+              data.departureDate
+            )} is Rain, please select another time`}
+          </Alert>
+        )
+      ) : null}
 
       <FootButtonGroup
         previousUrl={ROOT_URL}

@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { isEmpty } from "lodash";
 import SeatPicker from "react-seat-picker";
 
-import {
-  calculateBoatTicketPrice,
-  calculateSubTotalTicketPrice,
-  convertToRowsFormat,
-  updateLocalStorage,
-} from "../utils";
+import { convertToRowsFormat, updateLocalStorage } from "../utils";
 
 import { useFetchXml, useBookingContext, useLocalStorage } from "../hooks";
 
@@ -43,19 +38,16 @@ export const TereBoat = () => {
     await addCb(row, number, id, newTooltip);
 
     // Added seat to context
-    let { selectedSeats, totalTicketPrice } = data;
+    let { selectedSeats } = data;
 
     selectedSeats.push({
       row: row,
       id: id,
     });
 
-    totalTicketPrice += calculateBoatTicketPrice(row);
-
     setData({
       ...data,
       selectedSeats: selectedSeats,
-      totalTicketPrice: totalTicketPrice,
     });
 
     // Update localStorage
@@ -65,16 +57,14 @@ export const TereBoat = () => {
   const removeSeat = async ({ row, number, id }, removeCb) => {
     // revert to null is to reset toolTip
     const newTooltip = null;
-    removeCb(row, number, newTooltip);
+    await removeCb(row, number, newTooltip);
 
     // Added seat to context
-    let { selectedSeats, totalTicketPrice } = data;
-    totalTicketPrice -= calculateBoatTicketPrice(row);
+    let { selectedSeats } = data;
     selectedSeats.pop();
     setData({
       ...data,
       selectedSeats: selectedSeats,
-      totalTicketPrice: totalTicketPrice,
     });
 
     // Update localStorage
