@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 export const useFetchWeatherApi = (baseUrl) => {
   const lat = -36.85;
   const lon = 174.76;
-  const fullUrl = `${baseUrl}&appid=${process.env.REACT_APP_WEATHER_API_KEY}&lat=${lat}&lon=${lon}&exclude=Minutely,Hourly,Historical,National
+  const API_KEY = `3d01633cb2dd86089999917090aece60`;
+  const fullUrl = `${baseUrl}&appid=${API_KEY}&lat=${lat}&lon=${lon}&exclude=Minutely,Hourly,Historical,National
   &units=metric`;
 
   const [item, setItem] = useState({});

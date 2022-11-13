@@ -26,7 +26,7 @@
     "wouter": "^2.8.0"
   },
   "scripts": {
-    "start": "REACT_APP_WEATHER_API_KEY=3d01633cb2dd86089999917090aece60 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
