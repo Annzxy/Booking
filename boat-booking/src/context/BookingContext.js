@@ -8,6 +8,7 @@ export const INITIAL_STATE = {
   departureTime: "10am",
   departureDate: new Date(),
   selectedSeats: [],
+  localStorageKeyName: "",
   orders: [
     {
       name: "Chips",

@@ -6,17 +6,18 @@ import { convertToRowsFormat, updateLocalStorage } from "../utils";
 
 import { useFetchXml, useBookingContext } from "../hooks";
 
-import { TERE_BOAT, ADD, REMOVE } from "../constants";
+import { ADD, REMOVE } from "../constants";
 
 export const TereBoat = () => {
   const [data, setData] = useBookingContext();
   const { item, pending } = useFetchXml(`TereBoat.xml`);
 
-  const rowsFromLocalStorage = localStorage.getItem(TERE_BOAT);
+  const rowsFromLocalStorage = localStorage.getItem(data.localStorageKeyName);
   const [rows, setRows] = useState(
     !isEmpty(rowsFromLocalStorage) ? JSON.parse(rowsFromLocalStorage) : null
   );
 
+  console.log("data.localStorageKeyName", data.localStorageKeyName);
   useEffect(() => {
     // If has value in local storage, no need to read from xml file.
     if (!isEmpty(rows)) {
@@ -28,10 +29,16 @@ export const TereBoat = () => {
       const formattedRows = convertToRowsFormat(item);
       setRows(formattedRows);
 
+      if (rowsFromLocalStorage) {
+        setRows(JSON.parse(rowsFromLocalStorage));
+      }
       // Here we could not use rows immediately as setRows may done after fetch rows.
-      localStorage.setItem(TERE_BOAT, JSON.stringify(formattedRows));
+      localStorage.setItem(
+        data.localStorageKeyName,
+        JSON.stringify(formattedRows)
+      );
     }
-  }, [item, pending, rows]);
+  }, [item, pending, rows, rowsFromLocalStorage]);
 
   const addSeat = async ({ row, number, id }, addCb) => {
     const newTooltip = `Seat selected - ${id}`;
@@ -51,7 +58,7 @@ export const TereBoat = () => {
     });
 
     // Update localStorage
-    updateLocalStorage(TERE_BOAT, ADD, id);
+    updateLocalStorage(data.localStorageKeyName, ADD, id);
   };
 
   const removeSeat = async ({ row, number, id }, removeCb) => {
@@ -68,7 +75,7 @@ export const TereBoat = () => {
     });
 
     // Update localStorage
-    updateLocalStorage(TERE_BOAT, REMOVE, id);
+    updateLocalStorage(data.localStorageKeyName, REMOVE, id);
   };
 
   if (rows) {

@@ -16,7 +16,7 @@ import {
   convertTimeStampToLocalDateTime,
 } from "../utils";
 
-import { ROOT_URL, MENU_URL } from "../constants";
+import { ROOT_URL, MENU_URL, TERE_BOAT, NUI_BOAT } from "../constants";
 
 const StyledBoatSelection = styled("div")(({ theme }) => ({
   display: "flex",
@@ -25,13 +25,23 @@ const StyledBoatSelection = styled("div")(({ theme }) => ({
 }));
 
 export const BoatSeatSelection = () => {
-  const [data] = useBookingContext();
+  const [data, setData] = useBookingContext();
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [selectedWeather, setSelectedWeather] = useState({});
 
   useEffect(() => {
     if (!isEmpty(data)) {
+      const currentLocalStorageKeyNameSuffix = `-${data.departureDate.getDate()}-${
+        data.departureTime
+      }`;
+
+      const currentLocalStorageKeyNameMain =
+        data.boatName === "Tere Boat" ? TERE_BOAT : NUI_BOAT;
+      setData({
+        ...data,
+        localStorageKeyName: `${currentLocalStorageKeyNameMain}${currentLocalStorageKeyNameSuffix}`,
+      });
       data.futureWeathers.map((dailyWeather) => {
         const dateFromApi = convertTimeStampToLocalDateTime(dailyWeather.dt);
         const dateSelectedFromForm = data.departureDate
@@ -39,7 +49,7 @@ export const BoatSeatSelection = () => {
           .split(",")[0]
           .trim();
 
-        if (dateFromApi == dateSelectedFromForm) {
+        if (dateFromApi === dateSelectedFromForm) {
           setSelectedWeather(dailyWeather);
         }
 
@@ -53,9 +63,8 @@ export const BoatSeatSelection = () => {
         }
       });
     }
-  }, [data.futureWeathers, selectedWeather]);
+  }, [data.futureWeathers, data.departureTime, data.boatName, selectedWeather]);
 
-  console.log("data", data);
   const boatSelect = () => {
     switch (data.boatName) {
       case "Nui Boat":

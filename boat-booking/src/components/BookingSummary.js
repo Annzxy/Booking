@@ -14,7 +14,7 @@ import {
 
 import { useBookingContext } from "../hooks";
 
-import { MENU_URL, ROOT_URL, TERE_BOAT, NUI_BOAT, RESERVE } from "../constants";
+import { MENU_URL, ROOT_URL, RESERVE } from "../constants";
 import { MenuDetailBoard } from "./MenuDetailBoard";
 import { BoatSelectionDetailBoard } from "./BoatSelectionDetailBoard";
 import { INITIAL_STATE } from "../context/BookingContext";
@@ -25,9 +25,7 @@ export const BookingSummary = () => {
   const [, setLocation] = useLocation();
 
   const onClick = () => {
-    const { boatName } = data;
-    const keyName = boatName === "Tere Boat" ? TERE_BOAT : NUI_BOAT;
-    updateLocalStorage(keyName, RESERVE);
+    updateLocalStorage(data.localStorageKeyName, RESERVE);
     //clearContext
     setData({ ...INITIAL_STATE });
     setLocation(ROOT_URL, RESERVE);

@@ -75,7 +75,7 @@ export const BookingForm = () => {
   };
 
   const today = new Date();
-  const fourDaysfromNow = new Date(today.setDate(today.getDate() + 3));
+  const fourDaysfromNow = new Date(today.setDate(today.getDate() + 4));
 
   return (
     <Container

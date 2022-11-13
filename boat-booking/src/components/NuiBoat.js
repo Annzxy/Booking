@@ -6,13 +6,13 @@ import { convertToRowsFormat, updateLocalStorage } from "../utils";
 
 import { useFetchXml, useBookingContext } from "../hooks";
 
-import { NUI_BOAT, ADD, REMOVE } from "../constants";
+import { ADD, REMOVE } from "../constants";
 
 export const NuiBoat = () => {
   const [data, setData] = useBookingContext();
   const { item, pending } = useFetchXml(`NuiBoat.xml`);
 
-  const rowsFromLocalStorage = localStorage.getItem(NUI_BOAT);
+  const rowsFromLocalStorage = localStorage.getItem(data.localStorageKeyName);
   const [rows, setRows] = useState(
     !isEmpty(rowsFromLocalStorage) ? JSON.parse(rowsFromLocalStorage) : null
   );
@@ -28,10 +28,16 @@ export const NuiBoat = () => {
       const formattedRows = convertToRowsFormat(item);
       setRows(formattedRows);
 
+      if (rowsFromLocalStorage) {
+        setRows(JSON.parse(rowsFromLocalStorage));
+      }
       // Here we could not use rows immediately as setRows may done after fetch rows.
-      localStorage.setItem(NUI_BOAT, JSON.stringify(formattedRows));
+      localStorage.setItem(
+        data.localStorageKeyName,
+        JSON.stringify(formattedRows)
+      );
     }
-  }, [item, pending]);
+  }, [item, pending, rows, rowsFromLocalStorage]);
 
   const addSeat = async ({ row, number, id }, addCb) => {
     const newTooltip = `Seat selected - ${id}`;
@@ -51,13 +57,13 @@ export const NuiBoat = () => {
     });
 
     // Update localStorage
-    updateLocalStorage(NUI_BOAT, ADD, id);
+    updateLocalStorage(data.localStorageKeyName, ADD, id);
   };
 
   const removeSeat = async ({ row, number, id }, removeCb) => {
     // revert to null is to reset toolTip
     const newTooltip = null;
-    removeCb(row, number, newTooltip);
+    await removeCb(row, number, newTooltip);
 
     // Added seat to context
     let { selectedSeats } = data;
@@ -68,7 +74,7 @@ export const NuiBoat = () => {
     });
 
     // Update localStorage
-    updateLocalStorage(NUI_BOAT, REMOVE, id);
+    updateLocalStorage(data.localStorageKeyName, REMOVE, id);
   };
 
   if (rows) {

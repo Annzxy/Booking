@@ -2,6 +2,7 @@ import { ADD, REMOVE, RESERVE } from "../constants";
 
 export const updateLocalStorage = (KeyInLocalStorage, method, id) => {
   let rows = JSON.parse(localStorage.getItem(KeyInLocalStorage));
+
   switch (method) {
     case ADD:
       rows = rows.map((row) => {
