@@ -75,7 +75,7 @@
             <seat>
                 <id>2d</id>
                 <number>2d</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$30</tooltip>
             </seat>
@@ -98,21 +98,21 @@
             <seat>
                 <id>3a</id>
                 <number>3a</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$25</tooltip>
             </seat>
             <seat>
                 <id>3b</id>
                 <number>3b</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$25</tooltip>
             </seat>
             <seat>
                 <id>3c</id>
                 <number>3c</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$25</tooltip>
             </seat>
@@ -188,21 +188,21 @@
             <seat>
                 <id>4e</id>
                 <number>4e</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$25</tooltip>
             </seat>
             <seat>
                 <id>4f</id>
                 <number>4f</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$25</tooltip>
             </seat>
             <seat>
                 <id>4g</id>
                 <number>4g</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$25</tooltip>
             </seat>
@@ -218,14 +218,14 @@
             <seat>
                 <id>5a</id>
                 <number>5a</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$25</tooltip>
             </seat>
             <seat>
                 <id>5b</id>
                 <number>5b</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$25</tooltip>
             </seat>
@@ -345,7 +345,7 @@
             <seat>
                 <id>7b</id>
                 <number>7b</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$20</tooltip>
             </seat>
@@ -375,28 +375,28 @@
             <seat>
                 <id>7f</id>
                 <number>7f</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$20</tooltip>
             </seat>
             <seat>
                 <id>7g</id>
                 <number>7g</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$20</tooltip>
             </seat>
             <seat>
                 <id>7h</id>
                 <number>7h</number>
-                <isReserved>false</isReserved>
+                <isReserved>true</isReserved>
                 <isSelected>false</isSelected>
                 <tooltip>$20</tooltip>
             </seat>
         </row>
         <row>
             <seat>
-                <id>7a</id>
+                <id>8a</id>
                 <number>8a</number>
                 <isReserved>false</isReserved>
                 <isSelected>false</isSelected>

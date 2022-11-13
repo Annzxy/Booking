@@ -5,24 +5,23 @@ import { isEmpty } from "lodash";
 import { convertToRowsFormat } from "../utils";
 import SeatPicker from "react-seat-picker";
 
-export const NiuBoat = () => {
+export const NuiBoat = () => {
   const [data, setData] = useBookingContext();
-  const { item, pending } = useFetchXml(`TereBoat.xml`);
+  const { item, pending } = useFetchXml(`NuiBoat.xml`);
   const [rows, setRows] = useState(JSON.parse(localStorage.getItem(NUI_BOAT)));
 
+  console.log(rows);
   useEffect(() => {
     // If has value in local storage, no need to read from xml file.
     if (!isEmpty(rows)) {
       return;
     }
-    console.log("item", item);
     if (!isEmpty(item) && !pending) {
       setRows(convertToRowsFormat(item));
       localStorage.setItem(NUI_BOAT, JSON.stringify(rows));
     }
   }, [item, pending]);
 
-  console.log("rows", rows);
   if (rows) {
     return (
       <SeatPicker

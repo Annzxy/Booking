@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Menu>
+    <Item>
+        <ImageName>Chips</ImageName>
+        <Description>Fish and Chips</Description>
+        <Cost>15</Cost>
+        <SpecialRequirement>Egg free</SpecialRequirement>
+    </Item>
+    <Item>
+        <ImageName>Dumplings</ImageName>
+        <Description>Yummy dumplings</Description>
+        <Cost>20</Cost>
+        <SpecialRequirement>Vegetarian</SpecialRequirement>
+    </Item>
+    <Item>
+        <ImageName>Pasta</ImageName>
+        <Description>Italian Pasta</Description>
+        <Cost>35</Cost>
+        <SpecialRequirement>Gluten free</SpecialRequirement>
+    </Item>
+    <Item>
+        <ImageName>Pho</ImageName>
+        <Description>Beef Pho</Description>
+        <Cost>20</Cost>
+        <SpecialRequirement>Mild spicy</SpecialRequirement>
+    </Item>
+    <Item>
+        <ImageName>Poke</ImageName>
+        <Description>Hawaii Poke</Description>
+        <Cost>25</Cost>
+        <SpecialRequirement>Gluten free</SpecialRequirement>
+    </Item>
+    <Item>
+        <ImageName>Sandwitch</ImageName>
+        <Description>Sandwitch Platter</Description>
+        <Cost>45</Cost>
+        <SpecialRequirement>Gluten free</SpecialRequirement>
+    </Item>
+</Menu>

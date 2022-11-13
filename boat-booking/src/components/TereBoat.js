@@ -11,7 +11,11 @@ import { TERE_BOAT, ADD, REMOVE } from "../constants";
 export const TereBoat = () => {
   const [data, setData] = useBookingContext();
   const { item, pending } = useFetchXml(`TereBoat.xml`);
-  const [rows, setRows] = useState(JSON.parse(localStorage.getItem(TERE_BOAT)));
+
+  const rowsFromLocalStorage = localStorage.getItem(TERE_BOAT);
+  const [rows, setRows] = useState(
+    !isEmpty(rowsFromLocalStorage) ? JSON.parse(rowsFromLocalStorage) : null
+  );
 
   useEffect(() => {
     // If has value in local storage, no need to read from xml file.

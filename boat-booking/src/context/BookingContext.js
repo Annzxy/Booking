@@ -8,6 +8,47 @@ const initialState = {
   departureTime: "10am",
   departureDate: new Date(),
   selectedSeats: [],
+  orders: [
+    {
+      name: "Chips",
+      unit: 0,
+      unitPrice: 15,
+      subtotal: 0,
+    },
+    {
+      name: "Dumplings",
+      unit: 0,
+      unitPrice: 20,
+      subtotal: 0,
+    },
+    {
+      name: "Pasta",
+      unit: 0,
+      unitPrice: 35,
+      subtotal: 0,
+    },
+    {
+      name: "Pho",
+      unit: 0,
+      unitPrice: 20,
+      subtotal: 0,
+    },
+    {
+      name: "Poke",
+      unit: 0,
+      unitPrice: 25,
+      subtotal: 0,
+    },
+    {
+      name: "Sandwitch",
+      unit: 0,
+      unitPrice: 45,
+      subtotal: 0,
+    },
+  ],
+
+  totalPrice: 0,
+  totalFoodPrice: 0,
 };
 
 export const BookingContextProvider = (props) => {
