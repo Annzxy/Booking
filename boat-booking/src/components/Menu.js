@@ -60,7 +60,6 @@ export const Menu = () => {
     !isEmpty(menuFromLocalStorage) ? JSON.parse(menuFromLocalStorage) : null
   );
 
-  console.log("orders", data.orders);
   useEffect(() => {
     // If has value in local storage, no need to read from xml file.
     if (!isEmpty(menu)) {
@@ -106,7 +105,6 @@ export const Menu = () => {
     setData({ ...data, orders: orders, totalFoodPrice: totalFoodPrice });
   };
 
-  console.log("data", data);
   return data ? (
     <>
       <StyledContainer>

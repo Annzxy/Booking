@@ -1,40 +1,94 @@
 import React, { useState, useEffect } from "react";
-import { useFetchXml, useBookingContext, useLocalStorage } from "../hooks";
-import { NUI_BOAT } from "../constants";
 import { isEmpty } from "lodash";
-import { convertToRowsFormat } from "../utils";
 import SeatPicker from "react-seat-picker";
+
+import {
+  convertToRowsFormat,
+  updateLocalStorage,
+  calculateBoatTicketPrice,
+} from "../utils";
+
+import { useFetchXml, useBookingContext, useLocalStorage } from "../hooks";
+
+import { NUI_BOAT, ADD, REMOVE } from "../constants";
 
 export const NuiBoat = () => {
   const [data, setData] = useBookingContext();
   const { item, pending } = useFetchXml(`NuiBoat.xml`);
-  const [rows, setRows] = useState(JSON.parse(localStorage.getItem(NUI_BOAT)));
 
-  console.log(rows);
+  const rowsFromLocalStorage = localStorage.getItem(NUI_BOAT);
+  const [rows, setRows] = useState(
+    !isEmpty(rowsFromLocalStorage) ? JSON.parse(rowsFromLocalStorage) : null
+  );
+
   useEffect(() => {
     // If has value in local storage, no need to read from xml file.
     if (!isEmpty(rows)) {
       return;
     }
-    if (!isEmpty(item) && !pending) {
-      setRows(convertToRowsFormat(item));
-      localStorage.setItem(NUI_BOAT, JSON.stringify(rows));
+
+    // if no value in local storage, and xml conversion has been done
+    if (item && !pending) {
+      const formattedRows = convertToRowsFormat(item);
+      setRows(formattedRows);
+
+      // Here we could not use rows immediately as setRows may done after fetch rows.
+      localStorage.setItem(NUI_BOAT, JSON.stringify(formattedRows));
     }
   }, [item, pending]);
+
+  const addSeat = async ({ row, number, id }, addCb) => {
+    const newTooltip = `Seat selected - ${id}`;
+    await addCb(row, number, id, newTooltip);
+
+    // Added seat to context
+    let { selectedSeats, totalTicketPrice } = data;
+
+    selectedSeats.push({
+      row: row,
+      id: id,
+    });
+    debugger;
+    totalTicketPrice += calculateBoatTicketPrice(row);
+
+    setData({
+      ...data,
+      selectedSeats: selectedSeats,
+      totalTicketPrice: totalTicketPrice,
+    });
+
+    // Update localStorage
+    updateLocalStorage(NUI_BOAT, ADD, id);
+  };
+
+  const removeSeat = async ({ row, number, id }, removeCb) => {
+    // revert to null is to reset toolTip
+    const newTooltip = null;
+    removeCb(row, number, newTooltip);
+
+    // Added seat to context
+    let { selectedSeats, totalTicketPrice } = data;
+    totalTicketPrice -= calculateBoatTicketPrice(row);
+    selectedSeats.pop();
+    setData({
+      ...data,
+      selectedSeats: selectedSeats,
+      totalTicketPrice: totalTicketPrice,
+    });
+
+    // Update localStorage
+    updateLocalStorage(NUI_BOAT, REMOVE, id);
+  };
 
   if (rows) {
     return (
       <SeatPicker
-        // addSeatCallback={this.addSeatCallbackContinuousCase}
-        // removeSeatCallback={this.removeSeatCallback}
+        addSeatCallback={addSeat}
+        removeSeatCallback={removeSeat}
         rows={rows}
-        maxReservableSeats={3}
-        alpha
+        maxReservableSeats={Number(data.numberOfVisitors)}
         visible
         selectedByDefault
-        // loading={loading}
-        // tooltipProps={{ multiline: true }}
-        // continuous
       />
     );
   }

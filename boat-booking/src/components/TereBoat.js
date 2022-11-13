@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { isEmpty } from "lodash";
 import SeatPicker from "react-seat-picker";
 
-import { convertToRowsFormat, updateLocalStorage } from "../utils";
+import {
+  calculateBoatTicketPrice,
+  calculateSubTotalTicketPrice,
+  convertToRowsFormat,
+  updateLocalStorage,
+} from "../utils";
 
 import { useFetchXml, useBookingContext, useLocalStorage } from "../hooks";
 
@@ -38,12 +43,20 @@ export const TereBoat = () => {
     await addCb(row, number, id, newTooltip);
 
     // Added seat to context
-    const updateSelectedSeats = data.selectedSeats;
-    updateSelectedSeats.push({
+    let { selectedSeats, totalTicketPrice } = data;
+
+    selectedSeats.push({
       row: row,
       id: id,
     });
-    setData({ ...data, selectedSeats: updateSelectedSeats });
+
+    totalTicketPrice += calculateBoatTicketPrice(row);
+
+    setData({
+      ...data,
+      selectedSeats: selectedSeats,
+      totalTicketPrice: totalTicketPrice,
+    });
 
     // Update localStorage
     updateLocalStorage(TERE_BOAT, ADD, id);
@@ -55,9 +68,14 @@ export const TereBoat = () => {
     removeCb(row, number, newTooltip);
 
     // Added seat to context
-    const updateSelectedSeats = data.selectedSeats;
-    updateSelectedSeats.pop();
-    setData({ ...data, selectedSeats: updateSelectedSeats });
+    let { selectedSeats, totalTicketPrice } = data;
+    totalTicketPrice -= calculateBoatTicketPrice(row);
+    selectedSeats.pop();
+    setData({
+      ...data,
+      selectedSeats: selectedSeats,
+      totalTicketPrice: totalTicketPrice,
+    });
 
     // Update localStorage
     updateLocalStorage(TERE_BOAT, REMOVE, id);

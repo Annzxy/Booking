@@ -56,7 +56,6 @@ const StyledSubmitButtonWrapper = styled("div")(({ theme }) => ({
 }));
 
 export const BookingForm = () => {
-  const [match] = useRoute("/booking-form");
   const [location, setLocation] = useLocation();
   const [context, setContext] = useBookingContext();
   const { handleSubmit, control } = useForm({
@@ -98,6 +97,9 @@ export const BookingForm = () => {
                   type="number"
                   variant="standard"
                   label="Number of visitors"
+                  InputProps={{
+                    inputProps: { min: 1 },
+                  }}
                 />
               )}
             />

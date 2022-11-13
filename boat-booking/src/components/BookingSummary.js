@@ -24,6 +24,7 @@ import { useBookingContext } from "../hooks";
 
 import { MENU_URL, ROOT_URL, TERE_BOAT, NUI_BOAT, RESERVE } from "../constants";
 import { MenuDetailBoard } from "./MenuDetailBoard";
+import { BoatSelectionDetailBoard } from "./BoatSelectionDetailBoard";
 
 export const BookingSummary = () => {
   const [data, setData] = useBookingContext();
@@ -51,11 +52,12 @@ export const BookingSummary = () => {
         </Typography>
 
         <Typography variant="h5" sx={{ marginBottom: 10 }}>
-          {`Your total price is: ${convertToDollarCurrencyFormat(
-            data.totalPrice
+          {`Your Total Price is: ${convertToDollarCurrencyFormat(
+            data.totalFoodPrice + data.totalTicketPrice
           )}`}
         </Typography>
 
+        <BoatSelectionDetailBoard data={data} />
         <MenuDetailBoard data={data} />
         <Container sx={{ display: "flex", justifyContent: "end" }}>
           <Typography

@@ -47,7 +47,7 @@ const initialState = {
     },
   ],
 
-  totalPrice: 0,
+  totalTicketPrice: 0,
   totalFoodPrice: 0,
 };
 
