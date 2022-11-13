@@ -20,12 +20,12 @@ import { ROOT_URL, MENU_URL } from "../constants";
 
 const StyledBoatSelection = styled("div")(({ theme }) => ({
   display: "flex",
-  marginBottom: theme.spacing(10),
+  marginBottom: theme.spacing(5),
   marginTop: theme.spacing(5),
 }));
 
 export const BoatSeatSelection = () => {
-  const [data, setData] = useBookingContext();
+  const [data] = useBookingContext();
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [selectedWeather, setSelectedWeather] = useState({});
@@ -44,14 +44,18 @@ export const BoatSeatSelection = () => {
         }
 
         if (!isEmpty(selectedWeather)) {
-          if (selectedWeather.weather[0].main == "Rain") {
+          if (
+            selectedWeather.weather[0].main === "Rain" &&
+            selectedWeather.temp.day > 14
+          ) {
             setDisabled(true);
           }
         }
       });
     }
-  }, [data.futureWeathers]);
+  }, [data.futureWeathers, selectedWeather]);
 
+  console.log("data", data);
   const boatSelect = () => {
     switch (data.boatName) {
       case "Nui Boat":
@@ -63,23 +67,28 @@ export const BoatSeatSelection = () => {
     }
   };
 
-  const shouldShowAlert = !isEmpty(data?.futureWeathers);
-  const shouldShowSuccessAlert = !disabled && !isEmpty(selectedWeather);
+  const shouldShowAlert =
+    !isEmpty(data?.futureWeathers) && !isEmpty(selectedWeather);
+  const shouldShowSuccessAlert = !disabled;
   return (
-    <Container>
+    <Container sx={{ backgroundColor: "white", padding: 2, paddingBottom: 1 }}>
       <StyledBoatSelection>{boatSelect()}</StyledBoatSelection>
       {shouldShowAlert ? (
         shouldShowSuccessAlert ? (
           <Alert severity="success">
             {`Congrats! The weather on ${convertDepartureDateToString(
               data.departureDate
-            )} is ${selectedWeather.weather[0].main}! You can continue booking`}
+            )} is ${selectedWeather.weather[0].main} and Temp is ${
+              selectedWeather.temp.day
+            }°C. You can continue booking`}
           </Alert>
         ) : (
           <Alert severity="error">
             {`Sorry! The weather on ${convertDepartureDateToString(
               data.departureDate
-            )} is Rain, please select another time`}
+            )} is Rain and Temp is ${
+              selectedWeather.temp.day
+            }°C, please select another time`}
           </Alert>
         )
       ) : null}

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game</title>
+  </head>
+  <body>
+    <canvas
+      id="myCanvas"
+      width="900"
+      height="600"
+      style="background-image: url('background.jpg')"
+    ></canvas>
+
+    <script>
+      var canvas = document.getElementById("myCanvas");
+      var context = canvas.getContext("2d");
+      var myImg = new Image();
+      var tool = new Image();
+      var toolMove = new Image();
+      var light = new Image();
+      var x = 100;
+      var y = 0;
+
+      var tx = 44;
+      var ty = 12;
+      var step = 0,
+        radius = 10,
+        speed = 0.5;
+      myImg.src = "Cat.png";
+
+      var catWidth = myImg.width;
+      tool.src = "broom_1.png";
+      toolMove.src = "broom_2.png";
+      light.src = "light.png";
+      myImg.onload = function () {
+        context.drawImage(myImg, x, y);
+      };
+      tool.onload = function () {
+        context.drawImage(tool, tx, ty);
+      };
+
+      setInterval(spin, 50);
+      window.addEventListener("keydown", (event) => {
+        doKeyDown(event);
+      });
+
+      function draw() {
+        context.clearRect(0, 0, canvas.width, canvas.height); //
+        context.drawImage(myImg, x, y);
+        context.drawImage(tool, tx, ty);
+      }
+
+      function drawMove() {
+        context.clearRect(0, 0, canvas.width, canvas.height); //
+        context.drawImage(myImg, x, y);
+        context.drawImage(toolMove, tx - 18, ty + 8);
+      }
+
+      function drawRight() {
+        context.clearRect(0, 0, canvas.width, canvas.height); //
+        context.drawImage(myImg, x, y);
+        context.translate(catWidth, ty);
+        context.scale(-1, 1);
+        context.drawImage(tool, tx, ty);
+        // context.scale(-1, 1);
+      }
+      function spin() {
+        context.clearRect(x, y - 70, 200, 77); //
+        context.drawImage(
+          light,
+          x + radius * Math.cos(speed * step) + 82,
+          y + radius * Math.sin(speed * step) - 40
+        );
+        ++step;
+      }
+
+      function doKeyDown(event) {
+        switch (event.keyCode) {
+          case 37: {
+            // Left Arrow
+            x = x - 10;
+            tx = tx - 10;
+            draw();
+            break;
+          }
+          case 38: {
+            // Up Arrow
+            y = y - 10;
+            ty = ty - 10;
+            draw();
+            break;
+          }
+          case 39: {
+            // Right Arrow
+            x = x + 10;
+            tx = tx + 10;
+            draw();
+            break;
+          }
+          case 40: {
+            // Down Arrow
+            y = y + 10;
+            ty = ty + 10;
+            draw();
+            break;
+          }
+
+          case 32: {
+            drawMove();
+            break;
+          }
+        }
+        context.font = "30px Arial";
+        context.fillText("tx: " + tx, 500, 100);
+
+        context.fillText("ty: " + ty, 500, 155);
+        context.fillText("x: " + x, 500, 200);
+
+        context.fillText("y: " + y, 500, 250);
+      }
+
+      //New Bug
+
+      var a = Math.random() * canvas.width;
+      var b = 450;
+
+      function drawBugYellow(a, b) {
+        context.fillStyle = "rgb(255,255,0)";
+        context.beginPath();
+        context.arc(a, b, 6, 0, Math.PI * 2);
+        context.fill();
+        context.closePath();
+        context.stroke();
+      }
+
+      function drawBugRed(a, b) {
+        context.fillStyle = "rgb(255,0,0)";
+        context.beginPath();
+        context.arc(a, b, 20, 0, Math.PI * 2);
+        context.fill();
+        context.closePath();
+        context.stroke();
+      }
+
+      function drawBugYellowRed(a, b) {
+        context.fillStyle = "linear-gradient(to bottom right, red, yellow)";
+        context.beginPath();
+        context.arc(a, b, 13, 0, Math.PI * 2);
+        context.fill();
+        context.closePath();
+        context.stroke();
+      }
+
+      function moveBug() {
+        context.clearRect(a - 20, b, 40, 40);
+
+        drawBugRed(a, b);
+        b = b - 10;
+        // x = x+10;
+      }
+
+      drawBugYellow(a, b);
+
+      setTimeout(() => {
+        drawBugYellowRed(a, b);
+      }, 1000);
+
+      setTimeout(() => {
+        drawBugRed(a, b);
+      }, 3000);
+
+      setTimeout(() => {
+        setInterval(() => {
+          moveBug(a, b);
+        }, 50);
+      }, 3050);
+      // setTimeout(() => {
+
+      // }, 10);
+
+      // //BUGS
+      // const bugsArray = [];
+      // var a, b;
+      // var gameFrame = 0;
+      // class Bugs {
+      //   constructor() {
+      //     this.a = Math.random() * canvas.width;
+      //     this.b = 600;
+      //     this.radius = 6;
+      //     this.speed = Math.random() * 5 + 1;
+      //     this.distance;
+      //   }
+
+      //   update() {
+      //     this.b -= this.speed;
+      //   }
+
+      //   drawBug() {
+      //     context.fillStyle = "yellow";
+      //     context.beginPath();
+      //     context.arc(this.a, this.b, this.radius, 0, Math.PI * 2);
+      //     context.fill();
+      //     context.closePath();
+      //     context.stroke();
+      //   }
+      // }
+
+      // function handleBugs() {
+      //   if (gameFrame % 50 == 0) {
+      //     bugsArray.push(new Bugs());
+      //     console.log(bugsArray.length);
+      //   }
+
+      //   for (let i = 0; i < bugsArray.length; i++) {
+      //     bugsArray[i].update();
+      //     bugsArray[i].drawBug();
+      //   }
+      // }
+      // // Animation Loop
+
+      // function animate() {
+      //   context.clearRect(0, 0, canvas.width, canvas.height);
+      //   handleBugs();
+      //   gameFrame++;
+      //   console.log(gameFrame);
+      //   requestAnimationFrame(animate);
+      // }
+      // animate();
+    </script>
+  </body>
+</html>

@@ -23,7 +23,7 @@ export const FootButtonGroup = ({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 3,
-        marginBottom: 7,
+        marginBottom: 2,
       }}
     >
       <Button

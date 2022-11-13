@@ -42,7 +42,7 @@ export const BoatSelectionDetailBoard = (data) => {
           <Table aria-label="menu-sum">
             <TableHead>
               <TableRow>
-                <TableCell align="center">Row Number</TableCell>
+                <TableCell align="center">Seat Number</TableCell>
                 <TableCell align="center">Ticket price</TableCell>
               </TableRow>
             </TableHead>

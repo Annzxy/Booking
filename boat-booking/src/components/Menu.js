@@ -171,7 +171,7 @@ export const Menu = () => {
         <StyledMenuBoard>
           <MenuDetailBoard data={data} />
           <Divider />
-          <TableContainer component={Paper} sx={{ marginTop: 30 }}>
+          <TableContainer component={Paper} sx={{ marginTop: 10 }}>
             <Table sx={{ minWidth: 550 }} aria-label="menu-price">
               <TableBody>
                 <TableRow>

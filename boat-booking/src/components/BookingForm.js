@@ -82,7 +82,7 @@ export const BookingForm = () => {
       sx={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "start",
         flexDirection: "column",
         height: "100vh",
         padding: 2,

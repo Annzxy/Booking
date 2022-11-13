@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game</title>
+    <link rel="stylesheet" href="gameStyle.css" />
+  </head>
+  <body>
+    <button class="button" onClick="window.location.reload();">Restart</button>
+    <button class="button" onClick="changeEndDuration(1)">1 Minute Mode</button>
+    <button class="button" onClick="changeEndDuration(3)">3 Minute Mode</button>
+    <button class="button" onClick="changeEndDuration(5)">5 Minute Mode</button>
+    <br />
+    <br />
+
+    <div id="container">
+      <canvas id="canvas1" style="background-image: url('background.jpg')">
+      </canvas>
+      <div>
+        <img class="start" src="start.jpg" alt="startPage" />
+      </div>
+      <div>
+        <img id="end" class="end" src="end.jpg" alt="endPage" />
+      </div>
+    </div>
+    <script src="gameScript.js"></script>
+
+    <audio id="myAudio" controls autoplay>
+      <source src="happy.mp3" type="audio/mpeg" />
+      background music adjustment.
+    </audio>
+    <p id="demo"></p>
+    <button onclick="getVolume()" class="buttonS">Volume value</button>
+    <button onclick="setHalfVolume()" class="buttonS">Set volume to 0.5</button>
+    <button onclick="setFullVolume()" class="buttonS">Set volume to 1.0</button>
+
+    <script>
+      var x = document.getElementById("myAudio");
+
+      function getVolume() {
+        document.getElementById("demo").innerHTML = x.volume;
+      }
+
+      function setHalfVolume() {
+        x.volume = 0.2;
+      }
+
+      function setFullVolume() {
+        x.volume = 1.0;
+      }
+
+      window.onload = changeEndDuration(4);
+      // change end duration
+      function changeEndDuration(minutes) {
+        console.log("minutes", minutes);
+        const endImage = document.getElementById("end");
+
+        endImage.style.visibility = "hidden";
+        setTimeout(() => {
+          endImage.style.visibility = "visible";
+          x.volume = 0;
+        }, minutes * 1000 * 60);
+        // endImage.style.setProperty("--duration", minute);
+        // endImage.style.animation = "none";
+        // endImage.offsetHeight;
+        // endImage.style.animation = null;
+
+        // endImage.className = "";
+        // const newClassName = "end-in-" + minute + "-minutes";
+        // endImage.className = newClassName;
+      }
+    </script>
+  </body>
+</html>

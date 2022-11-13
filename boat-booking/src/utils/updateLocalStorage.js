@@ -33,6 +33,8 @@ export const updateLocalStorage = (KeyInLocalStorage, method, id) => {
       rows = rows.map((row) => {
         row.map((seat) => {
           if (seat && seat.isSelected === true) {
+            // need to reset seat select
+            seat.isSelected = false;
             seat.isReserved = true;
           }
           return seat;

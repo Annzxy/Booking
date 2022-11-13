@@ -6,7 +6,11 @@ import Container from "@mui/material/Container";
 
 import { FootButtonGroup } from "./FootButtonGroup";
 
-import { convertToDollarCurrencyFormat, updateLocalStorage } from "../utils";
+import {
+  convertToDollarCurrencyFormat,
+  updateLocalStorage,
+  getBoatTicketsTotalPrice,
+} from "../utils";
 
 import { useBookingContext } from "../hooks";
 
@@ -38,6 +42,7 @@ export const BookingSummary = () => {
           justifyContent: "center",
           alignItems: "center",
           padding: 6,
+          background: "white",
         }}
       >
         <Typography variant="h4" sx={{ marginBottom: 10 }}>
@@ -46,7 +51,7 @@ export const BookingSummary = () => {
 
         <Typography variant="h5" sx={{ marginBottom: 10 }}>
           {`Your Total Price is: ${convertToDollarCurrencyFormat(
-            data.totalFoodPrice + data.totalTicketPrice
+            data.totalFoodPrice + getBoatTicketsTotalPrice(data.selectedSeats)
           )}`}
         </Typography>
 
@@ -63,7 +68,7 @@ export const BookingSummary = () => {
           </Typography>
         </Container>
 
-        <Button variant="outlined" onClick={onClick}>
+        <Button variant="contained" onClick={onClick}>
           CONFIRM ORDER
         </Button>
         <FootButtonGroup previousUrl={MENU_URL} isLastPage={true} />
