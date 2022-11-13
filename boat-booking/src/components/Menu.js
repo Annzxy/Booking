@@ -105,7 +105,6 @@ export const Menu = () => {
     setData({ ...data, orders: orders, totalFoodPrice: totalFoodPrice });
   };
 
-  console.log("data", data);
   return data ? (
     <>
       <StyledContainer>

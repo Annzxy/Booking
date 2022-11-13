@@ -63,7 +63,13 @@ export const BoatSeatSelection = () => {
         }
       });
     }
-  }, [data.futureWeathers, data.departureTime, data.boatName, selectedWeather]);
+  }, [
+    data.futureWeathers,
+    data.departureTime,
+    data.boatName,
+    selectedWeather,
+    data.localStorageKeyName,
+  ]);
 
   const boatSelect = () => {
     switch (data.boatName) {

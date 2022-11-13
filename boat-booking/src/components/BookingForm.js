@@ -29,7 +29,12 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { useBookingContext, useFetchWeatherApi } from "../hooks";
 
-import { BOAT_SEAT_SELECTION, WEATHER_API_BASE_URL } from "../constants";
+import {
+  BOAT_SEAT_SELECTION,
+  WEATHER_API_BASE_URL,
+  TERE_BOAT,
+  NUI_BOAT,
+} from "../constants";
 
 const StyledForm = styled("form")`
   display: flex;
@@ -62,6 +67,13 @@ export const BookingForm = () => {
   });
 
   const onSubmit = (data) => {
+    const currentLocalStorageKeyNameSuffix = `-${data.datePicker.getDate()}-${
+      data.timeSlot
+    }`;
+
+    const currentLocalStorageKeyNameMain =
+      data.boatSelect === "Tere Boat" ? TERE_BOAT : NUI_BOAT;
+
     const newContext = {
       ...context,
       boatName: data.boatSelect,
@@ -69,6 +81,7 @@ export const BookingForm = () => {
       numberOfVisitors: data.visitorNumber,
       departureDate: data.datePicker,
       futureWeathers: futureWeathers,
+      localStorageKeyName: `${currentLocalStorageKeyNameMain}${currentLocalStorageKeyNameSuffix}`,
     };
     setContext(newContext);
     setLocation(BOAT_SEAT_SELECTION);
