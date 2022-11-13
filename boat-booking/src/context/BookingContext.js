@@ -46,7 +46,7 @@ const initialState = {
       subtotal: 0,
     },
   ],
-
+  futureWeathers: [],
   totalTicketPrice: 0,
   totalFoodPrice: 0,
 };

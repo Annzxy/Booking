@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { isEmpty } from "lodash";
 
 import { useRoute, useLocation } from "wouter";
 
@@ -7,57 +8,53 @@ import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Alert from "@mui/material/Alert";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import DoneIcon from "@mui/icons-material/Done";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { FootButtonGroup } from "./FootButtonGroup";
+import { useBookingContext, useFetchWeatherApi } from "../hooks";
 
-import { useBookingContext } from "../hooks";
-
-import { BOAT_SEAT_SELECTION, BOOKING_MAIN } from "../constants";
-
-const StyledFormItemWrapper = styled("div")(({ theme }) => ({
-  marginTop: theme.spacing(2),
-  marginBottom: theme.spacing(2),
-}));
+import { BOAT_SEAT_SELECTION, WEATHER_API_BASE_URL } from "../constants";
 
 const StyledForm = styled("form")`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
   max-width: 25vw;
-  margin: auto;
 `;
-
-const StyledRadioButtonGroup = styled(RadioGroup)`
-  dislay: flex;
-  flex-direction: row;
-`;
-
-const StyledSubmitButton = styled(Button)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-}));
-
-const StyledSubmitButtonWrapper = styled("div")(({ theme }) => ({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "100%",
-}));
 
 export const BookingForm = () => {
   const [location, setLocation] = useLocation();
   const [context, setContext] = useBookingContext();
+  const [currentWeather, setCurrentWeather] = useState({});
+  const [futureWeathers, setFutureWeathers] = useState({});
+  const { item, pending, error } = useFetchWeatherApi(WEATHER_API_BASE_URL);
+  console.log("context", context);
+  useEffect(() => {
+    if (!isEmpty(item) && !pending) {
+      setCurrentWeather(item.current);
+      setFutureWeathers(item.daily);
+    }
+  }, [item, pending, error]);
+
   const { handleSubmit, control } = useForm({
     defaultValues: {
       boatSelect: "Tere Boat",
@@ -74,6 +71,7 @@ export const BookingForm = () => {
       departureTime: data.timeSlot,
       numberOfVisitors: data.visitorNumber,
       departureDate: data.datePicker,
+      futureWeathers: futureWeathers,
     };
     setContext(newContext);
     setLocation(BOAT_SEAT_SELECTION);
@@ -83,93 +81,169 @@ export const BookingForm = () => {
   const fourDaysfromNow = new Date(today.setDate(today.getDate() + 3));
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
-      <Card sx={{ minWidth: 300, padding: 2 }}>
-        <CardContent>
-          <StyledFormItemWrapper>
-            <Controller
-              name="visitorNumber"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  type="number"
-                  variant="standard"
-                  label="Number of visitors"
-                  InputProps={{
-                    inputProps: { min: 1 },
-                  }}
-                />
-              )}
-            />
-          </StyledFormItemWrapper>
+    <Container
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        height: "100vh",
+        padding: 2,
+      }}
+    >
+      {!isEmpty(currentWeather) ? (
+        <TableContainer
+          component={Paper}
+          sx={{ marginBottom: 3, maxWidth: 500 }}
+        >
+          <Table aria-label="current weather">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center"> Attributes</TableCell>
+                <TableCell align="center">Details</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="center">Date:</TableCell>
+                <TableCell align="center">
+                  {new Date().toLocaleDateString()}
+                </TableCell>
+              </TableRow>
+              <TableRow
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="center">Temperature:</TableCell>
+                <TableCell align="center">{`${currentWeather.temp}°C`}</TableCell>
+              </TableRow>
+              <TableRow
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="center">Main:</TableCell>
+                <TableCell align="center">
+                  {currentWeather.weather[0].main}
+                </TableCell>
+              </TableRow>
+              <TableRow
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="center">In Operation:</TableCell>
+                <TableCell align="center">
+                  {currentWeather.weather[0].main !== "Rain" ? (
+                    <DoneIcon />
+                  ) : (
+                    <CloseIcon />
+                  )}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : null}
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <Card sx={{ minWidth: 300, padding: 2 }}>
+          <CardContent>
+            <Box sx={{ marginTop: 2, marginBottom: 2 }}>
+              <Controller
+                name="visitorNumber"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    type="number"
+                    variant="standard"
+                    label="Number of visitors"
+                    InputProps={{
+                      inputProps: { min: 1 },
+                    }}
+                  />
+                )}
+              />
+            </Box>
 
-          <StyledFormItemWrapper>
-            <Controller
-              name="boatSelect"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <StyledRadioButtonGroup {...field}>
-                  <FormControlLabel
-                    value="Tere Boat"
-                    control={<Radio />}
-                    label="Tere Boat"
+            <Box sx={{ marginTop: 2, marginBottom: 2 }}>
+              <Controller
+                name="boatSelect"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <RadioGroup
+                    sx={{ dislay: "flex", flexDirection: "row" }}
+                    {...field}
+                  >
+                    <FormControlLabel
+                      value="Tere Boat"
+                      control={<Radio />}
+                      label="Tere Boat"
+                    />
+                    <FormControlLabel
+                      value="Nui Boat"
+                      control={<Radio />}
+                      label="Nui Boat"
+                    />
+                  </RadioGroup>
+                )}
+              />
+            </Box>
+            <Box sx={{ marginTop: 2, marginBottom: 2 }}>
+              <Controller
+                name="datePicker"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <DatePicker
+                    sx={{ height: 20 }}
+                    onChange={(date) => field.onChange(date)}
+                    selected={field.value}
+                    minDate={Date.now()}
+                    maxDate={fourDaysfromNow}
+                    placeholderText="Select date here"
                   />
-                  <FormControlLabel
-                    value="Nui Boat"
-                    control={<Radio />}
-                    label="Nui Boat"
-                  />
-                </StyledRadioButtonGroup>
-              )}
-            />
-          </StyledFormItemWrapper>
-          <StyledFormItemWrapper>
-            <Controller
-              name="datePicker"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <DatePicker
-                  onChange={(date) => field.onChange(date)}
-                  selected={field.value}
-                  minDate={Date.now()}
-                  maxDate={fourDaysfromNow}
-                  placeholderText="Select date here"
-                />
-              )}
-            />
-          </StyledFormItemWrapper>
-          <StyledFormItemWrapper>
-            <Controller
-              name="timeSlot"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <StyledRadioButtonGroup {...field}>
-                  <FormControlLabel
-                    value="10am"
-                    control={<Radio />}
-                    label="10 AM"
-                  />
-                  <FormControlLabel
-                    value="2pm"
-                    control={<Radio />}
-                    label="2 PM"
-                  />
-                </StyledRadioButtonGroup>
-              )}
-            />
-          </StyledFormItemWrapper>
-          <StyledSubmitButtonWrapper>
-            <StyledSubmitButton type="submit" variant="contained">
-              Submit
-            </StyledSubmitButton>
-          </StyledSubmitButtonWrapper>
-        </CardContent>
-      </Card>
-    </StyledForm>
+                )}
+              />
+            </Box>
+            <Box sx={{ marginTop: 2, marginBottom: 2 }}>
+              <Controller
+                name="timeSlot"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <RadioGroup
+                    sx={{ dislay: "flex", flexDirection: "row" }}
+                    {...field}
+                  >
+                    <FormControlLabel
+                      value="10am"
+                      control={<Radio />}
+                      label="10 AM"
+                    />
+                    <FormControlLabel
+                      value="2pm"
+                      control={<Radio />}
+                      label="2 PM"
+                    />
+                  </RadioGroup>
+                )}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <Button sx={{ marginTop: 2 }} type="submit" variant="contained">
+                Submit
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      </StyledForm>
+    </Container>
   );
 };

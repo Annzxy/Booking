@@ -35,28 +35,22 @@ export const BoatSeatSelection = () => {
   const [currentWeather, setCurrentWeather] = useState({});
   const [selectedWeather, setSelectedWeather] = useState({});
 
-  const { item, pending, error } = useFetchWeatherApi(WEATHER_API_BASE_URL);
-
-  console.log("selectedWeather", selectedWeather);
-  useEffect(() => {
-    if (!isEmpty(item) && !pending) {
-      setCurrentWeather(item.current);
-
-      // find out the same date from api response as we selected from form.
-      item.daily.map((dailyWeather) => {
-        const dateFromApi = convertTimeStampToLocalDateTime(dailyWeather.dt);
-        const dateSelectedFromForm = data.departureDate
-          .toLocaleString()
-          .split(",")[0]
-          .trim();
-        console.log("dateFromApi", dateFromApi);
-        console.log("dateSelectedFromForm", dateSelectedFromForm);
-        if (dateFromApi == dateSelectedFromForm) {
-          setSelectedWeather(dailyWeather);
-        }
-      });
-    }
-  }, [item, pending, error]);
+  console.log("data.futureWeathers", data.futureWeathers);
+  // find out the same date from api response as we selected from form.
+  if (data) {
+    data.futureWeathers.map((dailyWeather) => {
+      const dateFromApi = convertTimeStampToLocalDateTime(dailyWeather.dt);
+      const dateSelectedFromForm = data.departureDate
+        .toLocaleString()
+        .split(",")[0]
+        .trim();
+      console.log("dateFromApi", dateFromApi);
+      console.log("dateSelectedFromForm", dateSelectedFromForm);
+      if (dateFromApi == dateSelectedFromForm) {
+        setSelectedWeather(dailyWeather);
+      }
+    });
+  }
 
   useEffect(() => {
     if (!isEmpty(selectedWeather)) {
