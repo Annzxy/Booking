@@ -17,7 +17,6 @@ export const TereBoat = () => {
     !isEmpty(rowsFromLocalStorage) ? JSON.parse(rowsFromLocalStorage) : null
   );
 
-  console.log("data.localStorageKeyName", data.localStorageKeyName);
   useEffect(() => {
     // If has value in local storage, no need to read from xml file.
     if (!isEmpty(rows)) {

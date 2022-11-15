@@ -89,8 +89,6 @@ export const BoatSeatSelection = () => {
     }
   };
 
-  console.log("selectedWeather", selectedWeather);
-  console.log("data", data);
   const shouldShowAlert =
     !isEmpty(data?.futureWeathers) && !isEmpty(selectedWeather);
   const shouldShowSuccessAlert = !disabled;
