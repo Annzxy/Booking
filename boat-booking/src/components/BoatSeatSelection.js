@@ -44,12 +44,19 @@ export const BoatSeatSelection = () => {
       });
       data.futureWeathers.map((dailyWeather) => {
         const dateFromApi = convertTimeStampToLocalDateTime(dailyWeather.dt);
-        const dateSelectedFromForm = data.departureDate
-          .toLocaleString()
-          .split(",")[0]
-          .trim();
 
-        if (dateFromApi === dateSelectedFromForm) {
+        const day = data.departureDate.getDate();
+        const month = data.departureDate.getMonth() + 1;
+        if (day < 10) {
+          day = "0" + day;
+        }
+
+        if (month < 10) {
+          month = "0" + month;
+        }
+        const year = data.departureDate.getFullYear();
+        const formattedDate = `${day}/${month}/${year}`;
+        if (dateFromApi === formattedDate) {
           setSelectedWeather(dailyWeather);
         }
 
@@ -82,6 +89,8 @@ export const BoatSeatSelection = () => {
     }
   };
 
+  console.log("selectedWeather", selectedWeather);
+  console.log("data", data);
   const shouldShowAlert =
     !isEmpty(data?.futureWeathers) && !isEmpty(selectedWeather);
   const shouldShowSuccessAlert = !disabled;
