@@ -62,7 +62,7 @@ export const BoatSeatSelection = () => {
 
         if (!isEmpty(selectedWeather)) {
           if (
-            selectedWeather.weather[0].main === "Rain" &&
+            selectedWeather.weather[0].main === "Rain" ||
             selectedWeather.temp.day <= 14
           ) {
             setDisabled(true);
